@@ -1,0 +1,133 @@
+@extends('layouts.app')
+
+@section('title', 'List Randomizer - Toolbox')
+
+@section('content')
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">List Randomizer</h1>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">Randomize and shuffle lists</p>
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Enter your list (one item per line):</label>
+            <textarea
+                id="input-list"
+                rows="12"
+                class="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg p-4 focus:border-primary-500 dark:focus:border-primary-400 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 outline-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                placeholder="Apple&#10;Banana&#10;Cherry&#10;Date&#10;Elderberry"
+            ></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <button
+                onclick="randomize()"
+                class="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition"
+            >
+                🎲 Randomize List
+            </button>
+            <button
+                onclick="pickRandom()"
+                class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
+            >
+                🎯 Pick Random Item
+            </button>
+        </div>
+
+        <div id="result" class="hidden">
+            <div class="flex justify-between items-center mb-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Result:</label>
+                <button onclick="copyResult()" class="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300">
+                    📋 Copy
+                </button>
+            </div>
+            <textarea
+                id="output"
+                readonly
+                rows="12"
+                class="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+            ></textarea>
+        </div>
+
+        <div id="random-pick" class="hidden mt-6">
+            <div class="bg-primary-50 dark:bg-gray-700 border-2 border-primary-300 dark:border-primary-600 rounded-lg p-6 text-center">
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Random Pick:</p>
+                <p id="random-item" class="text-2xl font-bold text-primary-600 dark:text-primary-400"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+async function randomize() {
+    const list = document.getElementById('input-list').value;
+
+    if (!list) {
+        alert('Please enter a list');
+        return;
+    }
+
+    try {
+        const response = await fetch('{{ route("tools.list-randomizer") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ list, action: 'shuffle' })
+        });
+
+        const data = await response.json();
+
+        document.getElementById('output').value = data.result.join('\n');
+        document.getElementById('result').classList.remove('hidden');
+        document.getElementById('random-pick').classList.add('hidden');
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    }
+}
+
+async function pickRandom() {
+    const list = document.getElementById('input-list').value;
+
+    if (!list) {
+        alert('Please enter a list');
+        return;
+    }
+
+    try {
+        const response = await fetch('{{ route("tools.list-randomizer") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ list, action: 'pick' })
+        });
+
+        const data = await response.json();
+
+        document.getElementById('random-item').textContent = data.result;
+        document.getElementById('random-pick').classList.remove('hidden');
+        document.getElementById('result').classList.add('hidden');
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    }
+}
+
+function copyResult() {
+    const output = document.getElementById('output');
+    const text = output.value;
+    navigator.clipboard.writeText(text).then(() => {
+        alert('✓ Copied to clipboard!');
+    }).catch(err => {
+        output.select();
+        document.execCommand('copy');
+        alert('✓ Copied to clipboard!');
+    });
+}
+</script>
+@endpush
+@endsection

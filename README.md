@@ -93,4 +93,4 @@ APP_DEBUG=false
 
 ## License
 
-MIT License
+Proprietary - All Rights Reserved

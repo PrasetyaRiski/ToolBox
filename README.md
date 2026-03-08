@@ -1,10 +1,10 @@
-# ProductiviTools - All Online Tools in One Box
+# Toolbox - All Online Tools in One Box
 
 > **⚠️ PERLINDUNGAN HARTA CIPTA**  
 > Karya ini dilindungi oleh hak cipta. Dilarang menyalin, mendistribusikan, atau menggunakan tanpa izin pemegang hak cipta.  
 > © 2026 Prasetya Riski Wa'afan. Semua hak cipta dilindungi.
 
-Sebuah platform all-in-one productivity tools yang mirip dengan 10015.io, dibangun dengan Laravel 12 dan MySQL.
+Sebuah platform all-in-one toolbox yang mirip dengan 10015.io, dibangun dengan Laravel 12 dan MySQL.
 
 ## 🚀 Fitur
 
@@ -29,7 +29,7 @@ Sebuah platform all-in-one productivity tools yang mirip dengan 10015.io, dibang
 ### 1. Clone atau Download Project
 
 ```bash
-cd c:\Users\kiki4\Documents\productivitools
+cd c:\Users\kiki4\Documents\Toolbox
 ```
 
 ### 2. Install Dependencies
@@ -50,7 +50,7 @@ File `.env` sudah tersedia. Sesuaikan konfigurasi database:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=productivitools
+DB_DATABASE=Toolbox
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -63,10 +63,10 @@ php artisan key:generate
 
 ### 5. Buat Database
 
-Buat database MySQL dengan nama `productivitools`:
+Buat database MySQL dengan nama `Toolbox`:
 
 ```sql
-CREATE DATABASE productivitools CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE Toolbox CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 ### 6. Jalankan Migrasi dan Seeder
@@ -228,4 +228,4 @@ Untuk pertanyaan dan dukungan, silakan buat issue di repository.
 
 ---
 
-**Selamat menggunakan ProductiviTools!** 🎉
+**Selamat menggunakan Toolbox!** 🎉

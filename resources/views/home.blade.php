@@ -1,6 +1,6 @@
 {{--
     ============================================================================
-    ProductiviTools - Semua Tools Online dalam Satu Tempat
+    Toolbox - Semua Tools Online dalam Satu Tempat
     ============================================================================
 
     © 2026 Prasetya Riski Wa'afan - Semua Hak Cipta Dilindungi

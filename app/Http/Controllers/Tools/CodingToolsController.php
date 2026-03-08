@@ -32,9 +32,10 @@ class CodingToolsController extends Controller
             $action = $request->input('action', 'encode');
 
             if ($action === 'encode') {
-                $result = urlencode($text);
+                // Encode seluruh teks/URL (untuk digunakan sebagai parameter)
+                $result = rawurlencode($text);
             } else {
-                $result = urldecode($text);
+                $result = rawurldecode($text);
             }
 
             return response()->json(['result' => $result]);

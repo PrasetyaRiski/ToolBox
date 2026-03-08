@@ -9,7 +9,7 @@
     <meta name="author" content="Prasetya Riski Wa'afan">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="ProductiviTools - Semua Tools Online dalam Satu Tempat">
+    <meta property="og:title" content="Toolbox - Semua Tools Online dalam Satu Tempat">
     <meta name="format-detection" content="telephone=no">
     <!-- Perlindungan Harta Cipta -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

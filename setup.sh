@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "🚀 ProductiviTools Setup Script"
+echo "🚀 Toolbox Setup Script"
 echo "================================"
 echo ""
 
@@ -44,7 +44,7 @@ echo ""
 echo "✅ Installation complete!"
 echo ""
 echo "Next steps:"
-echo "1. Create MySQL database: CREATE DATABASE productivitools;"
+echo "1. Create MySQL database: CREATE DATABASE toolbox;"
 echo "2. Update .env file with your database credentials"
 echo "3. Run: php artisan migrate"
 echo "4. Run: php artisan db:seed"

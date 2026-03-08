@@ -1,11 +1,11 @@
 # Changelog
 
-All notable changes to ProductiviTools will be documented in this file.
+All notable changes to Toolbox will be documented in this file.
 
 ## [1.0.0] - 2026-01-04
 
 ### Added
-- Initial release of ProductiviTools
+- Initial release of Toolbox
 - Laravel 12 framework setup
 - MySQL database with complete schema
 - 7 tool categories (Text, Image, CSS, Coding, Color, Social Media, Misc)

@@ -155,7 +155,7 @@
 
     /* Watermark & Copyright Protection */
     body::before {
-        content: "© 2026 ProductiviTools - Hak Cipta Dilindungi";
+        content: "© 2026 Toolbox - Hak Cipta Dilindungi";
         position: fixed;
         bottom: 20px;
         right: 20px;
@@ -179,7 +179,7 @@
             margin: 2cm;
         }
         body::before {
-            content: "© 2026 ProductiviTools - Semua Hak Cipta Dilindungi\AKarya Akademik - Penggunaan Tanpa Izin Dilarang";
+            content: "© 2026 Toolbox - Semua Hak Cipta Dilindungi\AKarya Akademik - Penggunaan Tanpa Izin Dilarang";
             white-space: pre-wrap;
             bottom: 40px;
             right: 40px;

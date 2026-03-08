@@ -1,7 +1,7 @@
 {
-    "name": "productivitools/web",
+    "name": "toolbox/web",
     "type": "project",
-    "description": "All-in-one productivity tools platform",
+    "description": "All-in-one toolbox platform",
     "keywords": ["laravel", "tools", "productivity"],
     "license": "MIT",
     "require": {

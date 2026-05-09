@@ -65,31 +65,37 @@ async function minify() {
             body: JSON.stringify({ css })
         });
 
-        const data = await response.json();
+        const json = await response.json();
 
-        document.getElementById('output').value = data.minified;
+        if (!json.success) {
+            alert('❌ ' + json.message);
+            return;
+        }
+
+        // ✅ Format baru: json.data.minified
+        const minified = json.data.minified;
+        document.getElementById('output').value = minified;
 
         const originalSize = css.length;
-        const minifiedSize = data.minified.length;
-        const saved = ((originalSize - minifiedSize) / originalSize * 100).toFixed(2);
+        const minifiedSize = minified.length;
+        const saved = originalSize > 0 ? ((originalSize - minifiedSize) / originalSize * 100).toFixed(1) : 0;
 
         document.getElementById('stats').textContent = `Reduced by ${saved}% (${originalSize} → ${minifiedSize} chars)`;
         document.getElementById('result').classList.remove('hidden');
     } catch (error) {
         console.error('Error:', error);
-        alert('An error occurred. Please try again.');
+        alert('Network error. Please try again.');
     }
 }
 
 function copyResult() {
-    const output = document.getElementById('output');
-    const text = output.value;
+    const text = document.getElementById('output').value;
+    if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
-        alert('✓ Copied to clipboard!');
-    }).catch(err => {
-        output.select();
-        document.execCommand('copy');
-        alert('✓ Copied to clipboard!');
+        const btn = event.target;
+        const orig = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => btn.textContent = orig, 2000);
     });
 }
 </script>

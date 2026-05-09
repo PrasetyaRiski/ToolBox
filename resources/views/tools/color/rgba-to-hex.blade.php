@@ -64,18 +64,26 @@
         </button>
 
         <div id="result" class="hidden space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">HEX:</label>
-                <div class="relative">
-                    <input
-                        type="text"
-                        id="hex-output"
-                        readonly
-                        class="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
-                    >
-                    <button onclick="copyHEX()" class="absolute right-2 top-1/2 -translate-y-1/2 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300">
-                        📋 Copy
-                    </button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">HEX (#RRGGBB):</label>
+                    <div class="relative">
+                        <input type="text" id="hex-output" readonly
+                            class="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white font-mono tracking-widest">
+                        <button onclick="copyValue('hex-output')" class="absolute right-2 top-1/2 -translate-y-1/2 text-primary-600 dark:text-primary-400 hover:text-primary-700">
+                            📋 Copy
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">HEX8 (#RRGGBBAA, with alpha):</label>
+                    <div class="relative">
+                        <input type="text" id="hex8-output" readonly
+                            class="w-full border-2 border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white font-mono tracking-widest">
+                        <button onclick="copyValue('hex8-output')" class="absolute right-2 top-1/2 -translate-y-1/2 text-primary-600 dark:text-primary-400 hover:text-primary-700">
+                            📋 Copy
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -84,6 +92,8 @@
                 <div id="color-preview" class="w-full h-24 border-2 border-gray-300 dark:border-gray-600 rounded-lg"></div>
             </div>
         </div>
+
+        <div id="error" class="hidden mt-4 p-3 bg-red-50 dark:bg-red-900/30 border border-red-300 rounded-lg text-red-600 dark:text-red-400 text-sm"></div>
     </div>
 </div>
 
@@ -105,30 +115,40 @@ async function convert() {
             body: JSON.stringify({ r, g, b, a })
         });
 
-        const data = await response.json();
+        const json = await response.json();
 
-        if (data.hex) {
-            document.getElementById('hex-output').value = data.hex;
-            document.getElementById('color-preview').style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
-            document.getElementById('result').classList.remove('hidden');
-        } else {
-            alert(data.error || 'Invalid RGBA values');
+        if (!json.success) {
+            showError(json.message);
+            return;
         }
+
+        // ✅ Format baru: json.data.hex & json.data.hex8
+        const d = json.data;
+        document.getElementById('hex-output').value  = d.hex;
+        document.getElementById('hex8-output').value = d.hex8;
+        document.getElementById('color-preview').style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+        document.getElementById('result').classList.remove('hidden');
+        document.getElementById('error').classList.add('hidden');
     } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again.');
+        showError('Network error. Please try again.');
     }
 }
 
-function copyHEX() {
-    const output = document.getElementById('hex-output');
-    const text = output.value;
+function showError(msg) {
+    const el = document.getElementById('error');
+    el.textContent = '❌ ' + msg;
+    el.classList.remove('hidden');
+    document.getElementById('result').classList.add('hidden');
+}
+
+function copyValue(id) {
+    const text = document.getElementById(id).value;
+    if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
-        alert('✓ Copied to clipboard!');
-    }).catch(err => {
-        output.select();
-        document.execCommand('copy');
-        alert('✓ Copied to clipboard!');
+        const btn = event.target;
+        const orig = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => btn.textContent = orig, 2000);
     });
 }
 </script>
